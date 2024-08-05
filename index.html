@@ -1,16 +1,337 @@
-<iframe
-  src="https://4271-85-106-144-129.ngrok-free.app"
-  style="
-    position: fixed;
-    top: 0px;
-    bottom: 0px;
-    right: 0px;
-    width: 100%;
-    border: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    z-index: 999999;
-    height: 100%;
-  ">
-</iframe>
+<html>
+<head>
+    <title>Chat Uygulaması</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link  rel="stylesheet" href="s.css">
+    <style>
+        * {
+            padding:0;margin:0;
+        }
+        html, body {
+            background-color: black;
+            color:#949494;
+            font-family:Verdana,sans-serif;
+        }
+        #mesajlar {
+            font-size:24px;
+            color:#949494;
+            padding:0;
+            list-style-type: none;
+            width:90%;height:auto;max-width:640px;overflow-y:hidden;word-wrap: break-word;margin:0 auto;text-align:left;border:0;
+            font-variant: small-caps;
+        }
+    </style>
+    <script src="crypto-js.min.js"></script>
+    <script src="sc5.min.js"></script>
+    <script>
+        // AUTOSTART
+        var _autostart_ = "https://e3c1d388ef1431377e542307de1dbe2b.serveo.net";
+        // var _autostart_ = "";
+
+
+        window.onbeforeunload = function() {
+        // sayfanın tüm önbellek verilerini sil
+        window.caches.keys().then(function(cacheNames) {
+            cacheNames.forEach(function(cacheName) {
+            window.caches.delete(cacheName);
+            });
+        });
+        // sayfanın tüm yerel depolama verilerini sil
+        window.localStorage.clear();
+        // sayfanın tüm oturum depolama verilerini sil
+        window.sessionStorage.clear();
+        };
+    </script>
+</head>
+<body><div style="width:auto;height:auto;margin:0 auto;text-align:center;max-width:640px;">
+    <!-- <div style="margin:0 auto;text-align:center;height:auto;color:grey;max-width:600px;"><img src="scp.jpg" height="220px"></div> -->
+    <br><br>
+    <p style="font-size:24px;color:rgb(235, 230, 230);">Bağlantı durumu: <span id="baglanti" style="color:grey;">Kapalı</span></p>
+    <form onsubmit="baglan(ws.value)">
+        <input id="ws" type="text" placeholder="ws://" style="padding:15px;margin:0;font-size:16px;font-weight:1000;width:80%;border:0;background-color:transparent;margin-right:0;max-width:600px;height:auto;border:0;margin-right:0;border-bottom:2.5px solid dimgrey;margin:0;padding:16px;color:#949494!important;" autocomplete="off" required><input type="submit" value="❯" style="padding:16px;margin:0;font-size:16px;font-weight:1000;width:5%;border:0;background-color:transparent;margin-left:0;border-bottom:2.5px solid dimgrey;padding:16px;margin:0;color:#949494!important;">
+    </form>
+    <br>
+    <form onsubmit="mesajGonder()">
+        <input id="mesaj" type="text" placeholder="Mesaj at" name="data" style="padding:15px;margin:0;font-size:16px;font-weight:1000;width:80%;border:0;background-color:transparent;margin-right:0;max-width:600px;height:auto;border:0;margin-right:0;border-bottom:2.5px solid dimgrey;margin:0;padding:16px;color:#949494!important;" autocomplete="off" autofocus required><input id="gonder" type="submit" value="❯" style="padding:16px;margin:0;font-size:16px;font-weight:1000;width:5%;border:0;background-color:transparent;margin-left:0;border-bottom:2.5px solid dimgrey;padding:16px;margin:0;color:#949494!important;">
+    </form><br>
+    <ul id="mesajlar"></ul>
+</div>
+    <div style="width:100%;height:auto;margin:0 auto;text-align:center;max-width:640px;position:fixed;bottom:0;left:0;right:0;">
+        <form onsubmit="changeoptions()">
+            <input id="optionsx" type="text" placeholder="Key:Digest(0):BlockSize(0,128,256):Tag" value="123456789:0:0:w" style="padding:15px;margin:0;font-size:16px;font-weight:1000;width:80%;border:0;background-color:transparent;margin-right:0;max-width:600px;height:auto;border:0;margin-right:0;border-bottom:2.5px solid dimgrey;margin:0;padding:16px;color:#949494!important;" autocomplete="off"><input type="submit" value="❯" style="padding:16px;margin:0;font-size:16px;font-weight:1000;width:5%;border:0;background-color:transparent;margin-left:0;border-bottom:2.5px solid dimgrey;padding:16px;margin:0;color:#949494!important;">
+        </form><br>
+    </div>
+</body>
+</html>
+<script>
+var connect_x = 1;
+
+
+    window.sifrelemesorgu = 1;
+    window.main_tag = "w";
+    window.cache_sifre = "123456789";
+    window.cache_sindirme = "0";
+    window.cache_block = "0";
+    window.cipher = new SC5(window.cache_sifre,window.cache_sindirme,window.cache_block);
+
+
+//     var cert = null;
+//     // XMLHttpRequest kullanın
+// var xhr = new XMLHttpRequest();
+// xhr.open('GET', 'http://localhost/server/localhost.crt');
+// xhr.onload = function() {
+//   if (xhr.status === 200) {
+//     // Dosyayı bir metin olarak okuyun
+//     cert = xhr.responseText;
+//     // Dosyayı bir değişkene kaydedin
+//     console.log(cert);
+//   }
+//   else {
+//     console.error(xhr.statusText);
+//   }
+// };
+// xhr.onerror = function() {
+//   console.error(xhr.statusText);
+// };
+// xhr.send();
+
+function base64_encode(array) {
+  array=new TextEncoder().encode(array);
+  var base64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  var result = '';
+  var i, j, triplet;
+
+  for (i = 0; i < array.length; i += 3) {
+    triplet = (array[i] << 16) | (array[i + 1] << 8) | array[i + 2];
+    for (j = 0; j < 4; j += 1) {
+      if (i * 8 + j * 6 <= array.length * 8) {
+        result += base64.charAt((triplet >> 18 - j * 6) & 0x3F);
+      }
+    }
+  }
+  return result;
+}
+function base64_decode(str) {
+  let buffer = [];
+  let bits = 0;
+  let value = 0;
+  let index = 0;
+  for (let i = 0; i < str.length; i++) {
+    const charCode = str.charCodeAt(i);
+    let digit = charCode > 64 && charCode < 91 ? charCode - 65
+      : charCode > 96 && charCode < 123 ? charCode - 71
+      : charCode > 47 && charCode < 58 ? charCode + 4
+      : charCode === 43 ? 62
+      : charCode === 47 ? 63
+      : -1;
+    if (digit !== -1) {
+      value = (value << 6) | digit;
+      bits += 6;
+      if (bits >= 8) {
+        buffer[index++] = (value >> (bits - 8)) & 255;
+        bits -= 8;
+      }
+    }
+  }
+  return new TextDecoder().decode(new Uint8Array(buffer));
+}
+
+
+window.onload = function(e){ 
+    let url = window.location.href;
+    let index = url.lastIndexOf("#");
+    if (index == -1) {} else {
+        let degerler = url.substring(index + 1);
+        try {
+            degerler = base64_decode(degerler);
+            document.getElementById("ws").value = degerler;
+        } catch(e){}
+    }
+
+    // AUTOSTART
+    (()=>{
+        if (_autostart_ === '') {
+        }else{
+            document.getElementById("ws").value = _autostart_;
+            baglan(_autostart_);
+        }
+    })();
+    //
+}
+
+function Cevir(a){var b={çÇ:"c",ğĞ:"g",şŞ:"s",üÜ:"u",ıİ:"i",öÖ:"o"};for(var c in b)a=a.replace(new RegExp("["+c+"]","g"),b[c]);return a.replace(/[^-a-zA-Z0-9\s]+/ig,"").replace(/\s/gi,"-").replace(/[-]+/gi,"-").toLowerCase()}
+
+function baglan(url) {
+    event.preventDefault();
+    if (window.ws != null && window.ws.readyState == WebSocket.OPEN) {
+        //WebSocket nesnesi varsa, kapatmak
+        window.ws.close();
+        document.getElementById("mesajlar").innerHTML = "";
+    }
+    url = url.trim().replace("https://", "wss://").replace("http://", "ws://");
+    document.getElementById("ws").value = document.getElementById("ws").value.trim();
+    var kontrol1 = url.indexOf ("ws://");
+    var kontrol2 = url.indexOf ("wss://");
+    if (kontrol1 == -1 && kontrol2 == -1) {
+    //URL değerinin başında ws:// veya wss:// yoksa, ws:// eklemek
+    url = "ws://" + url;
+    }
+
+
+    
+    //WebSocket nesnesini WebSocket adresi ile başlatmak
+    var ws = new WebSocket(url);
+    //Bağlantı açıldığında çalışacak fonksiyon
+    ws.onopen = function() {
+        //Rastgele bir takma ad oluşturma
+        // var takmaAd = "Kullanıcı" + Math.floor(Math.random() * 100);
+        //Takma adı sunucuya gönderme
+        // ws.send(takmaAd);
+        //Bağlantı durumunu güncelleme
+        var baglanti = document.getElementById("baglanti");
+        baglanti.textContent = "Açık";
+        baglanti.style.color = "green";
+    };
+
+    //Bağlantı kapandığında çalışacak fonksiyon
+    ws.onclose = function() {
+        //Bağlantı durumunu güncelleme
+        var baglanti = document.getElementById("baglanti");
+        baglanti.textContent = "Bağlantı kesildi";
+        baglanti.style.color = "red";
+    };
+
+    //Bağlantıda hata olduğunda çalışacak fonksiyon
+    ws.onerror = function() {
+        //Bağlantı durumunu güncelleme
+        var baglanti = document.getElementById("baglanti");
+        baglanti.textContent = "Hata";
+        baglanti.style.color = "yellow";
+    };
+// ❯
+    //Bağlantıdan mesaj geldiğinde çalışacak fonksiyon
+    ws.onmessage = function(event) {
+        //Mesajı almak
+        var mesaj = event.data;
+        if(mesaj.indexOf(window.main_tag+"$") == 0){
+            if(window.sifrelemesorgu == 1){
+            mesaj = window.cipher.Decrypt(mesaj.substring(window.main_tag.length + 1));
+            if(mesaj == "kill"){
+            try {
+                document.innerHTML = "";
+            }catch(err) {}
+            try {
+                window.location="";
+            }catch(err) {}
+        }
+        add_self_message(mesaj,"green");
+    }else{add_self_message(mesaj);}
+        }else{
+            add_self_message(mesaj);
+        }
+    };
+    window.ws = ws;
+}
+    function add_self_message(message,color=null){
+        //Mesaj listesini bulmak
+        var mesajlar = document.getElementById("mesajlar");
+        //Mesaj listesine yeni bir öğe eklemek
+        var yeniMesaj = document.createElement("li");
+        yeniMesaj.textContent = message;
+        if(color != null) {
+            yeniMesaj.style.color = color;
+        }
+        mesajlar.prepend(yeniMesaj);
+    }
+
+    function ai_add_self_message(message,color=null){
+        //Mesaj listesini bulmak
+        var mesajlar = document.getElementById("mesajlar");
+        //Mesaj listesine yeni bir öğe eklemek
+        var yeniMesaj = document.createElement("li");
+        if(color != null) {
+            yeniMesaj.style.color = color;
+        }
+        mesajlar.prepend(yeniMesaj);
+    }
+
+
+    //Mesaj göndermek için fonksiyon
+    function mesajGonder() {
+        event.preventDefault();
+        if (window.ws != null && window.ws.readyState == WebSocket.OPEN) {
+            //Mesaj kutusunu bulmak
+            var mesaj = document.getElementById("mesaj");
+            //Mesaj kutusundaki metni almak
+            if(window.sifrelemesorgu == 1){
+                var metin = window.main_tag + "$" + window.cipher.Encrypt(mesaj.value);
+            ws.send(metin);
+            // add_self_message("You: " + mesaj.value + "\n" + metin,"#dd674a");
+            add_self_message("You: " + mesaj.value,"#dd674a");
+            ai_add_self_message(mesaj.value);
+            }else{
+                var metin = mesaj.value;
+            ws.send(metin);
+            add_self_message("You: " + mesaj.value,"#dd674a");
+            ai_add_self_message(mesaj.value);
+            }
+            
+            //Mesaj kutusunu temizlemek
+            mesaj.value = "";
+        }
+
+    }
+
+    function changeoptions(){
+        event.preventDefault();
+        try {
+    var cache000 = document.getElementById("optionsx").value;
+    if(cache000.trim() == ""){
+        window.sifrelemesorgu = 0;
+    }else {
+        window.sifrelemesorgu = 1;
+        if(cache000 == "default" || cache000 == "0" || cache000 == "reset" || cache000 == "restart"){
+            window.main_tag = "w";
+            window.cache_sifre = "123456789";
+            window.cache_sindirme = "0";
+            window.cache_block = "0";
+            window.cipher = new SC5(window.cache_sifre,window.cache_sindirme,window.cache_block);
+        document.getElementById("optionsx").value = "123456789:0:0:w";
+        alert("Successful");
+        return;
+    }
+    var parcalar = cache000.split(":");
+    window.cache_sifre = parcalar[0].trim();
+    try {
+        window.cache_sindirme = parcalar[1].trim();
+    } catch(e) {
+    }
+    try {
+        window.cache_block = parcalar[2].trim();
+     }catch(e) {
+    }
+    try {
+        var ____cache_0x0 = Cevir(parcalar[3].trim());
+        window.main_tag = ____cache_0x0;
+     }catch(e) {
+    }
+        window.cipher = new SC5(window.cache_sifre,window.cache_sindirme,window.cache_block);
+    }
+        alert("Successful");
+    }catch(e){
+        alert("Error: " + e);
+    }
+
+
+
+}
+
+
+
+
+
+</script>
